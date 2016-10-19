@@ -19,12 +19,14 @@ The language has a limited vocabulary, but is useful to demonstrate long and sho
 
 The encoder turns a sequence of words into a vector of size `hidden_size` with a linear layer and LSTM layer:
 
+![](https://i.imgur.com/QqMFp3p.png)
+
 ```lua
 encoder_lstm = nn.LSTM(opt.hidden_size, opt.hidden_size)
 
 encoder = nn.Sequential()
-    :add(nn.OneHot(n_words_in))
-    :add(nn.Linear(n_words_in, opt.hidden_size))
+    :add(nn.OneHot(n_tokens_in))
+    :add(nn.Linear(n_tokens_in, opt.hidden_size))
     :add(encoder_lstm)
 
 encoder = nn.Sequencer(encoder)
@@ -36,10 +38,10 @@ The decoder takes a word or start marker and outputs the likeliness of the next 
 decoder_lstm = nn.LSTM(opt.hidden_size, opt.hidden_size)
 
 decoder = nn.Sequential()
-    :add(nn.OneHot(n_words_out + 2))
-    :add(nn.Linear(n_words_out + 2, opt.hidden_size))
+    :add(nn.OneHot(n_tokens_out + 2))
+    :add(nn.Linear(n_tokens_out + 2, opt.hidden_size))
     :add(decoder_lstm)
-    :add(nn.Linear(opt.hidden_size, n_words_out + 2))
+    :add(nn.Linear(opt.hidden_size, n_tokens_out + 2))
     :add(nn.LogSoftMax())
 
 decoder = nn.Sequencer(decoder)
