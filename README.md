@@ -19,7 +19,7 @@ The language has a limited vocabulary, but is useful to demonstrate long and sho
 
 The encoder turns a sequence of words into a vector of size `hidden_size` with a linear layer and LSTM layer:
 
-```
+```lua
 encoder_lstm = nn.LSTM(opt.hidden_size, opt.hidden_size)
 
 encoder = nn.Sequential()
@@ -32,7 +32,7 @@ encoder = nn.Sequencer(encoder)
 
 The decoder takes a word or start marker and outputs the likeliness of the next word or end marker:
 
-```
+```lua
 decoder_lstm = nn.LSTM(opt.hidden_size, opt.hidden_size)
 
 decoder = nn.Sequential()
@@ -51,14 +51,14 @@ The encoder creates a "context vector" but the decoder doesn't have explicit inp
 
 When sampling, the last output of the encoder LSTM is copied as the previous output of the decoder LSTM:
 
-```
+```lua
 decoder_lstm.userPrevOutput = nn.rnn.recursiveCopy(decoder_lstm.userPrevOutput, encoder_lstm.outputs[last_index])
 decoder_lstm.userPrevCell = nn.rnn.recursiveCopy(decoder_lstm.userPrevCell, encoder_lstm.cells[last_index])
 ```
 
 After sampling, gradients are copied back from the decoder to the encoder:
 
-```
+```lua
 encoder_lstm.userNextGradCell = nn.rnn.recursiveCopy(encoder_lstm.userNextGradCell, decoder_lstm.userGradPrevCell)
 encoder_lstm.gradPrevOutput = nn.rnn.recursiveCopy(encoder_lstm.gradPrevOutput, decoder_lstm.userGradPrevOutput)
 ```
