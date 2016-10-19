@@ -52,15 +52,27 @@ The encoder creates a "context vector" but the decoder doesn't have explicit inp
 When sampling, the last output of the encoder LSTM is copied as the previous output of the decoder LSTM:
 
 ```lua
-decoder_lstm.userPrevOutput = nn.rnn.recursiveCopy(decoder_lstm.userPrevOutput, encoder_lstm.outputs[last_index])
-decoder_lstm.userPrevCell = nn.rnn.recursiveCopy(decoder_lstm.userPrevCell, encoder_lstm.cells[last_index])
+decoder_lstm.userPrevOutput = nn.rnn.recursiveCopy(
+    decoder_lstm.userPrevOutput,
+    encoder_lstm.outputs[last_index]
+)
+decoder_lstm.userPrevCell = nn.rnn.recursiveCopy(
+    decoder_lstm.userPrevCell,
+    encoder_lstm.cells[last_index]
+)
 ```
 
 After sampling, gradients are copied back from the decoder to the encoder:
 
 ```lua
-encoder_lstm.userNextGradCell = nn.rnn.recursiveCopy(encoder_lstm.userNextGradCell, decoder_lstm.userGradPrevCell)
-encoder_lstm.gradPrevOutput = nn.rnn.recursiveCopy(encoder_lstm.gradPrevOutput, decoder_lstm.userGradPrevOutput)
+encoder_lstm.userNextGradCell = nn.rnn.recursiveCopy(
+    encoder_lstm.userNextGradCell,
+    decoder_lstm.userGradPrevCell
+)
+encoder_lstm.gradPrevOutput = nn.rnn.recursiveCopy(
+    encoder_lstm.gradPrevOutput,
+    decoder_lstm.userGradPrevOutput
+)
 ```
 
 
