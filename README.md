@@ -17,7 +17,7 @@ The language has a limited vocabulary, but is useful to demonstrate long and sho
 
 ## Model
 
-![](https://i.imgur.com/v4AtpBH.png)
+![](https://i.imgur.com/NzvlG3X.png)
 
 The encoder turns a sequence of words into a vector of size `hidden_size` with a linear layer and LSTM layer:
 
