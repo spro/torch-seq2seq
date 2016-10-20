@@ -17,9 +17,9 @@ The language has a limited vocabulary, but is useful to demonstrate long and sho
 
 ## Model
 
-The encoder turns a sequence of words into a vector of size `hidden_size` with a linear layer and LSTM layer:
+![](https://i.imgur.com/V44OGA9.png)
 
-![](https://i.imgur.com/QqMFp3p.png)
+The encoder turns a sequence of words into a vector of size `hidden_size` with a linear layer and LSTM layer:
 
 ```lua
 encoder_lstm = nn.LSTM(opt.hidden_size, opt.hidden_size)
