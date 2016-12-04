@@ -1,4 +1,4 @@
-# torch-seq2seq-translate
+# torch-seq2seq
 
 Uses a word-level Seq2Seq network in Torch to learn to translate the synthetic language *Espançanese*:
 
