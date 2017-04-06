@@ -168,8 +168,7 @@ function train()
 	local decoder_grad_outputs = criterion:backward(decoder_outputs, target_outputs)
 	decoder:backward(decoder_inputs, decoder_grad_outputs)
 
-    encoder_lstm.userNextGradCell = nn.rnn.recursiveCopy(encoder_lstm.userNextGradCell, decoder_lstm.userGradPrevCell)
-    encoder_lstm.gradPrevOutput = nn.rnn.recursiveCopy(encoder_lstm.gradPrevOutput, decoder_lstm.userGradPrevOutput)
+    encoder_lstm:setGradHiddenState(last_index, decoder_lstm:getGradHiddenState(0))
 
 	local zero_tensor = torch.Tensor(encoder_outputs):zero()
 	encoder:backward(encoder_inputs, zero_tensor)
